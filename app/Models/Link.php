@@ -12,10 +12,12 @@ class Link extends Model
 
     protected $fillable = [
         'original_url',
+        'url_id',
         'short_url',
         'user_id',
         'clicks',
-        'expires_at'
+        'expires_at',
+        'slug'
     ];
 
     protected $dates = [

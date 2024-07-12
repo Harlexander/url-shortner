@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->string('short_url', 10)->unique();
+            $table->string('slug', 10)->unique();
+            $table->text('short_url');
             $table->text('original_url');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedInteger('clicks')->default(0);
@@ -22,18 +23,6 @@ return new class extends Migration
 
             // Adding a foreign key constraint (assuming a 'users' table exists)
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
-
-        Schema::create('link_clicks', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('link_id');
-            $table->string('ip_address');
-            $table->string('user_agent');
-            $table->string('referrer')->nullable();
-            $table->string('location')->nullable();
-            $table->timestamps();
-
-            $table->foreign('link_id')->references('id')->on('links')->onDelete('cascade');
         });
     }
 
