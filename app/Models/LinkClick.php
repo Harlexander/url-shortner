@@ -16,7 +16,8 @@ class LinkClick extends Model
         'ip_address',
         'user_agent',
         'referrer',
-        'location'
+        'location',
+        'city'
     ];
 
     /**

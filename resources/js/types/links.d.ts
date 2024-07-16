@@ -3,7 +3,7 @@ export interface LinkType {
     slug : string,
     original_url : string,
     clicks : number,
-    created_at ?: Date,
+    created_at ?: string,
     user_id ?: number,
     link_clicks ?: LinkClicks[]
 }

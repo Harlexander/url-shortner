@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Link;
 use App\Models\LinkClick;
+use Detection\MobileDetect;
+use Faker\Provider\UserAgent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Stevebauman\Location\Facades\Location;
+
+use function Laravel\Prompts\error;
 
 class RedirectController extends Controller
 {
@@ -22,12 +26,22 @@ class RedirectController extends Controller
                 $country = $position->countryName;
             }
 
+            $detect = new MobileDetect();
+
+            if ($detect->isMobile() && !$detect->isTablet()) {
+                $deviceType = 'mobile';
+            } elseif ($detect->isTablet()) {
+                $deviceType = 'tablet';
+            } else {
+                $deviceType = 'desktop';
+            }
+
             LinkClick::create([
                 'link_id' => $link->id,
                 'location' => $country,
                 'ip_address' => $request->ip(),
                 'referrer' => $request->headers->get('referer'),
-                'user_agent' => $request->header('User-Agent')
+                'user_agent' => $deviceType
             ]);
 
             $link->clicks++;

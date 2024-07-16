@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index(Request $request) {
         $userId = $request->user()->id;
 
-        $userLinks = Link::select('short_url', 'original_url', 'clicks', 'id')
+        $userLinks = Link::select('short_url', 'original_url', 'clicks', 'id', 'slug')
             ->where('user_id', $userId)
             ->latest()
             ->limit(6)

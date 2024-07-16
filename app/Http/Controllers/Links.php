@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Link;
+use App\Models\LinkClick;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class Links extends Controller
 {
@@ -44,5 +46,30 @@ class Links extends Controller
             'success' => "url created successfully"
         ]);
 
+    }
+
+    public function linkData(Request $request, $slug){
+        $link = Link::where('slug', $slug)->first();
+
+        $countryCount = LinkClick::where('link_id', $link->id)
+        ->selectRaw('location, COUNT(*) as count')
+        ->groupBy('location')
+        ->get();
+        $countryCount = $countryCount->sortByDesc('count')->values();
+
+        $cityCount = LinkClick::where('link_id', $link->id)
+        ->selectRaw('city, COUNT(*) as count')
+        ->groupBy('city')
+        ->get();
+        $cityCount = $cityCount->sortByDesc('count')->values();
+
+
+        error_log($cityCount);
+        
+        return Inertia::render('Link', [
+            "link" => $link,
+            "country" => $countryCount,
+            "city" => $cityCount
+        ]);
     }
 }

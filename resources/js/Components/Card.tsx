@@ -1,8 +1,9 @@
 import { BarChartIcon } from 'lucide-react'
 import React from 'react'
+import { CardContent, Card as ShadCard } from './ui/card'
 
 interface Props{
-    value ?: number,
+    value ?: number | string,
     Icon ?: any,
     title ?: string
 }
@@ -21,4 +22,18 @@ const Card = ({value, Icon, title} : Props) => {
   )
 }
 
-export default Card
+export default Card;
+
+export const CardLink = ({value, Icon, title} : Props) => {
+  return(
+    <ShadCard>
+      <CardContent className='flex items-center py-5 gap-4'>
+          <Icon className='h-5'/>
+          <div>
+              <span className='text-xs font-light'>{title}</span>
+              <p className='font-black text-xl'>{value}</p>
+          </div>
+      </CardContent>
+  </ShadCard>
+  )
+}

@@ -8,16 +8,16 @@ import {
     TableHeader,
     TableRow,
   } from "../ui/table"
+import { Card, CardContent, CardHeader } from '../ui/card'
 
 const Referrer = ({ className, country } : HTMLAttributes<HTMLDivElement> & { country : { location : string, count : number }[] }) => {
   return (
-    <div className={'bg-white rounded p-5 col-1 space-y-5 ' + className}>
-        <div className='flex justify-between items-center'>
-            <p className="font-semibold">Top Locations</p>
-            <Button variant={'link'}>See all</Button>
-        </div>
-
-        <div className='overflow-x-auto relative'>
+    <Card className=''>
+      <CardHeader className='font-bold text-xl'>
+        Top Locations
+      </CardHeader>
+      <CardContent>
+      <div className='overflow-x-auto relative'>
         <Table>
           <TableHeader>
               <TableRow>
@@ -37,7 +37,8 @@ const Referrer = ({ className, country } : HTMLAttributes<HTMLDivElement> & { co
           </TableBody>
         </Table>
         </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
