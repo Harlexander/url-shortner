@@ -41,5 +41,17 @@ class DashboardController extends Controller
             'country' => $countryCount
         ]);
     }
+
+    public function links(Request $request){
+        $userId = $request->user()->id;
+        
+        $userLinks = Link::where('user_id', $userId)
+        ->latest()
+        ->get();
+
+        return Inertia::render('Links', [
+            'links' => $userLinks
+        ]);
+    }
 }
 

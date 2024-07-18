@@ -26,8 +26,8 @@ export default function Link({ auth, link, country, city, devices, days}: PagePr
                     <Card className='sm:col-span-3'>
                         <CardHeader>
                            <div className='flex flex-col sm:flex-row justify-between gap-3'>
-                                <p className='text-xl font-semibold'>{link.name}</p>
-                                <div className='space-x-2 flex'>
+                                <p className='text-xl font-semibold hidden sm:inline'>{link.name}</p>
+                                <div className='space-x-2 flex justify-end'>
                                     <ShareButton url={link.short_url}/>
                                     <EditLink link={link}/>
                                 </div>

@@ -22,7 +22,7 @@ const ShareButton = ({url, title} : Prop ) => {
         variant={'outline'} 
         className='gap-2'
         onClick={() => shareLink(url)}>
-            Share Link <Share2Icon className='h-4'/>
+            Share <Share2Icon className='h-4'/>
     </Button>
   )
 }

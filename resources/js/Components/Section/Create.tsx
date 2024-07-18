@@ -11,6 +11,7 @@ const Create = () => {
   const { data, setData, post, processing, errors, reset } = useForm({
       link: 'https://',
       slug: '',
+      name : ""
   });
 
   const { toast } = useToast();
@@ -33,9 +34,9 @@ return (
         <p className='font-semibold'>Create new short URL</p>
 
         <form onSubmit={create} className='space-y-2'>
-            <div className='grid sm:grid-cols-4 gap-3'>
+            <div className='grid sm:grid-cols-5 gap-3'>
               <div className='col-span-3'>
-                <InputLabel>Original URL</InputLabel>
+                <InputLabel>Your URL</InputLabel>
                 <TextInput 
                     id='link'
                     type='url'
@@ -46,15 +47,26 @@ return (
                     onChange={e => setData('link', e.target.value)}/>
               </div>
               <div>
-                <InputLabel>Preferred slug (optional)</InputLabel>
+                <InputLabel>Custom slug (optional)</InputLabel>
                 <TextInput 
                     id='slug'
                     type='text'
                     name='slug'
                     value={data.slug}
                     className='w-full'
-                    placeholder='title,name,reference'
+                    placeholder='relating to the link'
                     onChange={e => setData('slug', e.target.value)}/>
+              </div>
+              <div>
+                <InputLabel>Title</InputLabel>
+                <TextInput 
+                    id='slug'
+                    type='text'
+                    name='name'
+                    value={data.name}
+                    className='w-full'
+                    placeholder='Title'
+                    onChange={e => setData('name', e.target.value)}/>
               </div>
             </div>
             <Button>{!processing ? 'Shortnen URL' : 'Loading'}</Button>

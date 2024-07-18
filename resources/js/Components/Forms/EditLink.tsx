@@ -33,7 +33,7 @@ export function EditLink({link} : {link : LinkType}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-2">Edit Link <PenIcon className="h-4"/></Button>
+        <Button className="gap-2">Edit <PenIcon className="h-4"/></Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

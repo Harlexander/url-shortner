@@ -1,5 +1,5 @@
 import Card from '../Card'
-import { BarChart } from 'lucide-react'
+import { BarChart, BarChart2Icon, LinkIcon, UserIcon } from 'lucide-react'
 
 const Data = ({urls, clicks} : { urls : number, clicks : number}) => {
   return (
@@ -7,15 +7,15 @@ const Data = ({urls, clicks} : { urls : number, clicks : number}) => {
         <Card
             title='short urls'
             value={urls}
-            Icon={BarChart}/>
+            Icon={LinkIcon}/>
         <Card
             title='total clicks'
             value={clicks}
-            Icon={BarChart}/>
+            Icon={BarChart2Icon}/>
         <Card
-            title='short urls'
-            value={123}
-            Icon={BarChart}/>
+            title='Account Plan'
+            value={"Free"}
+            Icon={UserIcon}/>
     </section>  
 )
 }
