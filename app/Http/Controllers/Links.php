@@ -14,7 +14,8 @@ class Links extends Controller
     public function create(Request $request){
         $request->validate([
             'link' => ['required', 'url'],
-            'slug' => ['nullable', "unique:links,slug"]
+            'slug' => ['nullable', "unique:links,slug"],
+            'name' => 'required|min:4'
         ]);
 
 
@@ -25,7 +26,8 @@ class Links extends Controller
                 'slug' => $slug,
                 'original_url' => $request->link,
                 'short_url' => env('APP_URL').$slug,
-                'user_id' => $request->user()->id
+                'user_id' => $request->user()->id,
+                'name' => $request->name
             ]);
 
             return back()->with([
@@ -39,7 +41,8 @@ class Links extends Controller
             'slug' => $slug,
             'original_url' => $request->link,
             'short_url' => env('APP_URL').$slug,
-            'user_id' => $request->user()->id
+            'user_id' => $request->user()->id,
+            'name' => $request->name
         ]);
 
         return back()->with([

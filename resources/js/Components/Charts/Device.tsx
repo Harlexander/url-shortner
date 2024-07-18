@@ -23,9 +23,6 @@ import {
 } from "../ui/chart"
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
   desktop: {
     label: "Desktop",
     color: "hsl(var(--chart-1))",
@@ -50,6 +47,7 @@ export function DeviceChart({devices}: { devices : { user_agent : string, count 
    return devices.map((device) => ({device : device.user_agent, clicks : device.count, fill :( device.user_agent == "desktop" ? "var(--color-desktop)" : "" || device.user_agent == "mobile" ? "var(--color-mobile)" : "" || device.user_agent == "tablet" ? "var(--color-tablet)" : "")}))
   }, [])
 
+  console.log(chartData)
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -59,7 +57,7 @@ export function DeviceChart({devices}: { devices : { user_agent : string, count 
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-[250px] min-h-[250px]"
         >
           <PieChart>
             <ChartTooltip

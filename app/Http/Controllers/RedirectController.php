@@ -11,7 +11,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Stevebauman\Location\Facades\Location;
 
-use function Laravel\Prompts\error;
 
 class RedirectController extends Controller
 {
@@ -20,10 +19,11 @@ class RedirectController extends Controller
         $link = Link::where('slug', $slug)->first();
 
         if($link){
-            $country = null;
+            $country = null; $city = null;
             $position = Location::get($request->ip());
             if($position){
                 $country = $position->countryName;
+                $city = $position->cityName;
             }
 
             $detect = new MobileDetect();
@@ -41,7 +41,8 @@ class RedirectController extends Controller
                 'location' => $country,
                 'ip_address' => $request->ip(),
                 'referrer' => $request->headers->get('referer'),
-                'user_agent' => $deviceType
+                'user_agent' => $deviceType,
+                'city' => $city
             ]);
 
             $link->clicks++;

@@ -20,15 +20,6 @@ import {
 import moment from "moment"
 import { useMemo } from "react"
 
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
-
 const chartConfig = {
   clicks: {
     label: "Clicks",
@@ -46,13 +37,15 @@ export function Clicks({days} : { days : { date : string, count : number}[] }) {
             const count = days.find(({ date }) => date === formattedDate)?.count || 0;
     
             return {
-                date: date.format('dd'), // Format for the chart
+                date: date.format('ddd DD'), // Format for the chart
                 clicks: count,
             };
         }).reverse();
     
         return last14Days;
     }, [days]);
+
+    console.log(chartData);
     return (
     <Card>
       <CardHeader>
