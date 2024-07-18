@@ -1,5 +1,6 @@
 export interface LinkType {
     short_url : string,
+    name : string,
     slug : string,
     original_url : string,
     clicks : number,

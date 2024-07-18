@@ -31,7 +31,7 @@ export const CardLink = ({value, Icon, title} : Props) => {
           <Icon className='h-5'/>
           <div>
               <span className='text-xs font-light'>{title}</span>
-              <p className='font-black text-xl'>{value}</p>
+              <p className='font-black text-xl capitalize'>{value}</p>
           </div>
       </CardContent>
   </ShadCard>

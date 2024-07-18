@@ -17,7 +17,8 @@ class Link extends Model
         'user_id',
         'clicks',
         'expires_at',
-        'slug'
+        'slug',
+        'name'
     ];
 
     protected $dates = [

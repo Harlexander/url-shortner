@@ -54,22 +54,55 @@ class Links extends Controller
         $countryCount = LinkClick::where('link_id', $link->id)
         ->selectRaw('location, COUNT(*) as count')
         ->groupBy('location')
+        ->orderBy('count', 'desc')
         ->get();
-        $countryCount = $countryCount->sortByDesc('count')->values();
+
 
         $cityCount = LinkClick::where('link_id', $link->id)
         ->selectRaw('city, COUNT(*) as count')
         ->groupBy('city')
+        ->orderBy('count', 'desc')
         ->get();
-        $cityCount = $cityCount->sortByDesc('count')->values();
 
+        $devices = LinkClick::where('link_id', $link->id)
+        ->selectRaw('user_agent, COUNT(*) as count')
+        ->groupBy('user_agent')
+        ->orderBy('count', 'desc')
+        ->get();
 
-        error_log($cityCount);
+        $days = LinkClick::where('link_id', $link->id)
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->groupBy('date')
+        ->get();
+
+        error_log($countryCount);
         
         return Inertia::render('Link', [
             "link" => $link,
             "country" => $countryCount,
-            "city" => $cityCount
+            "city" => $cityCount,
+            "devices" => $devices,
+            "days" => $days
         ]);
     }
-}
+
+    public function editLink(Request $request, $slug){
+        $request->validate([
+            'name' => 'required',
+            'original_url' => 'required|url'
+        ]);
+
+
+        $link = Link::where("slug", $slug)->first();
+
+        if($link){
+            $link->name = $request->name;
+            $link->original_url = $request->original_url;
+            $link->save();
+        }
+
+        return back()->with([
+            'message' => "Link details updated successfully"
+        ]);
+    }
+};

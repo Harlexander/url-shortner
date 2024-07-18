@@ -17,6 +17,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "../ui/chart"
+import moment from "moment"
+import { useMemo } from "react"
+
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 305 },
@@ -27,18 +30,34 @@ const chartData = [
 ]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  clicks: {
+    label: "Clicks",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig
 
-export function Clicks() {
-  return (
+export function Clicks({days} : { days : { date : string, count : number}[] }) {
+
+    const chartData = useMemo(() => {
+        const today = moment();
+        const last14Days = Array.from({ length: 14 }, (_, index) => {
+            const date = today.clone().subtract(index, 'days');
+            const formattedDate = date.format('YYYY-MM-DD');
+            const count = days.find(({ date }) => date === formattedDate)?.count || 0;
+    
+            return {
+                date: date.format('dd'), // Format for the chart
+                clicks: count,
+            };
+        }).reverse();
+    
+        return last14Days;
+    }, [days]);
+    return (
     <Card>
       <CardHeader>
         <CardTitle>Daily Clicks</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>{moment().subtract(14, "days").format("DD MMMM YYYY")} - {moment().format("DD MMMM YYYY")}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -51,7 +70,7 @@ export function Clicks() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="date"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
@@ -61,7 +80,7 @@ export function Clicks() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
+            <Bar dataKey="clicks" fill="var(--color-clicks)" radius={8}>
               <LabelList
                 position="top"
                 offset={12}
@@ -72,7 +91,7 @@ export function Clicks() {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      <CardFooter className="flex-col items-start gap-2 text-sm hidden">
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>

@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader } from '../ui/card'
 
 const Referrer = ({ className, country } : HTMLAttributes<HTMLDivElement> & { country : { location : string, count : number }[] }) => {
   return (
-    <Card className=''>
+    <Card className='flex-1'>
       <CardHeader className='font-bold text-xl'>
         Top Locations
       </CardHeader>
@@ -27,9 +27,9 @@ const Referrer = ({ className, country } : HTMLAttributes<HTMLDivElement> & { co
           </TableHeader>
           <TableBody>
             {
-                country.map((count) => (
+                [...country].splice(0, 5).map((count) => (
                     <TableRow>
-                        <TableCell className="font-medium">{count.location}</TableCell>
+                        <TableCell className="font-medium capitalize">{count.location}</TableCell>
                         <TableCell className="font-medium text-right">{count.count}</TableCell>
                     </TableRow>
                 ))

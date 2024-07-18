@@ -5,18 +5,19 @@ import { LinkType } from '@/types/links';
 import Referrer from '@/Components/Section/Referrer';
 import { DeviceChart } from '@/Components/Charts/Device';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
-import { Button } from '@/Components/ui/button';
-import { BarChart, Calendar, Clipboard, FlagIcon, Map, MapIcon, PenIcon } from 'lucide-react';
+import { BarChart, Calendar, FlagIcon, Map, MapIcon, PenIcon, ShareIcon } from 'lucide-react';
 import moment from 'moment';
 import { Clicks } from '@/Components/Charts/Clicks';
 import { CardLink } from '@/Components/Card';
+import ShareButton from '@/Components/ShareButton';
+import { EditLink } from '@/Components/Forms/EditLink';
 
-export default function Link({ auth, link, country, city}: PageProps & { link : LinkType, country : { location : string, count : number}[], city : { city : string, count : number}[]} ) {    
+export default function Link({ auth, link, country, city, devices, days}: PageProps & { link : LinkType, country : { location : string, count : number}[], city : { city : string, count : number}[], devices : { user_agent : string, count : number}[], days : { date : string, count : number}[]} ) {    
     console.log(country)
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">URL Details - {link.original_url}</h2>}
+            header={<div className="font-semibold text-xl text-gray-800 leading-tight">{link.name} <span className='hidden sm:inline'>- {link.original_url}</span></div>}
         >
             <section className='sm:px-16 space-y-10 py-10 sm:py-16 px-4'>
                 <Head title="Dashboard" />
@@ -24,11 +25,11 @@ export default function Link({ auth, link, country, city}: PageProps & { link : 
                 <section className='grid sm:grid-cols-4 gap-5'>
                     <Card className='sm:col-span-3'>
                         <CardHeader>
-                           <div className='flex flex-row justify-between'>
-                                <p className='text-xl font-semibold'>Global School of Ministry</p>
-                                <div className='space-x-2 hidden sm:block'>
-                                    <Button className='gap-3'>Copy Link <Clipboard className='h-4'/></Button>
-                                    <Button className='gap-3'>Edit URL <PenIcon className='h-4'/></Button>
+                           <div className='flex flex-col sm:flex-row justify-between gap-3'>
+                                <p className='text-xl font-semibold'>{link.name}</p>
+                                <div className='space-x-2 flex'>
+                                    <ShareButton url={link.short_url}/>
+                                    <EditLink link={link}/>
                                 </div>
                            </div>
                         </CardHeader>
@@ -52,11 +53,11 @@ export default function Link({ auth, link, country, city}: PageProps & { link : 
                                     value={city[0] ? city[0].city : 'N/A'}
                                     title='Top City'/>
                             </div>
-                            <Clicks/>
+                            <Clicks days={days}/>
                         </CardContent>
                     </Card>
-                    <section className='space-y-5'>
-                        <DeviceChart/>
+                    <section className='space-y-5 flex flex-col'>
+                        <DeviceChart devices={devices}/>
                         <Referrer country={country}/>
                     </section>
 
